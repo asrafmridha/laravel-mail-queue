@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProductController;
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $products = Product::orderBy('id', 'DESC')->get();
+    return view('welcome',compact('products'));
 });
+
+Route::post('product.store', [ProductController::class, 'store'])->name('product.store');
