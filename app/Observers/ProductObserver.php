@@ -2,7 +2,10 @@
 
 namespace App\Observers;
 
+use App\Mail\ProductMailer;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 class ProductObserver
 {
@@ -11,7 +14,11 @@ class ProductObserver
      */
     public function created(Product $product): void
     {
-        //
+        $users = User::all();
+
+        foreach ($users as $user) {
+            Mail::to($user->email)->send(new ProductMailer($product));
+        }
     }
 
     /**
